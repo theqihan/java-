@@ -1,0 +1,124 @@
+package experiment;
+
+import java.util.Scanner;
+
+import static experiment.print.printCalendar;
+
+public class homework {
+    public static void main(String[] args){
+        int month,year;
+        Scanner a = new Scanner(System.in);
+        Scanner b = new Scanner(System.in);
+        while(true) {
+            System.out.println("请分别输入年份和月份(从2018年开始）");
+            year = a.nextInt();
+            month = b.nextInt();
+            if (year < 2018 || month > 12 || month < 1) {
+                System.out.println("您输入的有误请重新输入");
+            } else
+                printCalendar(month, year);
+            System.out.println();
+        }
+    }
+}
+package experiment;
+
+
+import static experiment.totalDays.leapYear;
+
+public class monthsDate {
+
+    public static int days(int n,int year)//n为给出的月份,year为给出的年份
+    {
+        int[]month = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
+        if(leapYear(year))
+        {
+            month[1] = 29;
+        }
+        return month[n-1];
+    }
+
+
+}
+//通过给出的月份知道该月的天数
+package experiment;
+import static experiment.calculateSpace.Space;
+import static experiment.monthsDate.days;
+public class print {
+    public static void printCalendar(int month,int year){
+        int space = Space(month,year);
+        int cnt = 0;//控制换行
+        System.out.println("一\t二\t三\t四\t五\t六\t日");
+        System.out.println("============lqh==============");
+        for (int i = 0; i < space; i++) {
+            cnt++;
+            System.out.print("\t");
+        }
+        for (int i = 1; i <= days(month,year); i++) {
+            cnt++;
+            System.out.print(i + "\t");
+            if (cnt % 7 == 0) {
+                cnt = 0;
+                System.out.println();
+            }
+        }
+    }
+}
+
+package experiment;
+
+import static experiment.totalDays.nowAllDays;
+
+public class calculateSpace{
+    public static int Space(int month,int year){
+        int space;
+        space = nowAllDays(year,month) % 7;
+        return space;
+    }
+}
+package experiment;
+
+public class totalDays {
+    public static boolean leapYear(int year){
+        return (year % 4 ==0&& year % 100 != 0 || year % 400 == 0);
+    }
+    public static int getEverTotalDays(int year) {
+        int days = 0;
+        for (int i = 2018; i < year; ++i) {
+            if (leapYear(i)) {
+                days += 366;
+            } else {
+                days += 365;
+            }
+        }
+
+        return days;
+    }//从2018年开始计算，因为2018年的第一天为周一方便计算
+
+        public static int MonthDays(int n,int year) {
+            switch (n) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    return 31;
+                case 2:
+                    return leapYear(year) ? 29 : 28;
+                default:
+                    return 30;
+            }
+        }
+    public static int nowAllDays(int year,int months)
+    {
+        int allDays = getEverTotalDays(year);
+        for(int i = 1; i < months ;++i)
+        {
+            allDays += MonthDays(i,year);
+        }
+        return allDays;
+    }
+}
+//大一刚学习java用来练习语法所写的一个日历程序
